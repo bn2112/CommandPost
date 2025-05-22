@@ -1,0 +1,336 @@
+{
+  "version": "6.0.0-tactical",
+  "classification": "MISSION-CRITICAL",
+  "deployment_status": "COMBAT-READY",
+  "max_messages": 100,
+  "time_frame_days": 100,
+  "account_overrides": {
+    "Gmail - Brandon Currie": {
+      "time_frame_days": 3,
+      "max_messages": 25
+    },
+    "iCloud": {
+      "time_frame_days": 10
+    }
+  },
+  "priority_scoring": {
+    "urgent_keywords": ["urgent", "asap", "critical", "immediate", "delayed shipment", "customs hold", "escalate", "high priority", "emergency", "deadline"],
+    "respond_keywords": ["respond", "reply", "response needed", "action required", "please review", "need response", "waiting for", "follow up", "please confirm", "could you"],
+    "info_only_patterns": ["pits report", "bms sftp", "automated report", "system notification", "do not reply", "noreply", "invoice is ready", "successfully delivered", "automatic reply", "out of office", "vacation responder", "newsletter", "digest", "monthly summary", "weekly report", "account statement"],
+    "folder_boost": ["AMR Logistics", "AMR Tickets", "DHL", "FedEx", "UPS", "Important"],
+    "vip_senders": ["@apple.com", "@fedex.com", "@ups.com", "@dhl.com", "b_currie@apple.com", "michelle_love@apple.com", "ankur_jain@apple.com", "acentella@fedex.com", "mxshen@ups.com"],
+    "learned_vips": [],
+    "keyword_weights": {
+      "urgent": 3, "asap": 3, "critical": 4, "emergency": 4, "immediate": 3, "please review": 1, "need response": 2, "delayed": 2, "customs": 2, "escalate": 3, "deadline": 2
+    },
+    "sender_penalties": {
+      "noreply@": -3, "no-reply@": -3, "donotreply@": -3, "notifications@": -2, "alerts@": -2, "system@": -2, "automated@": -2, "newsletter@": -2
+    },
+    "time_bonuses": {
+      "under_6_hours": 2, "under_24_hours": 1, "over_72_hours": -1, "over_7_days": -2
+    },
+    "priority_thresholds": {
+      "urgent": 7,
+      "high": 4,
+      "medium": 2,
+      "normal": 0,
+      "info_only": -1
+    }
+  },
+  "threat_assessment": {
+    "enabled": true,
+    "threat_keywords": {
+      "critical_indicators": ["URGENT", "IMMEDIATE", "CRITICAL", "ASAP", "EMERGENCY"],
+      "suspicious_indicators": ["VERIFY", "SUSPEND", "CLICK HERE", "CONFIRM", "UPDATE"],
+      "phishing_patterns": ["verify account", "click link", "urgent action", "suspended", "expires"],
+      "supply_chain_alerts": ["delayed shipment", "customs hold", "delivery issue", "route change", "capacity constraint"]
+    },
+    "threat_scoring": {
+      "critical_weight": 20,
+      "suspicious_weight": 15,
+      "phishing_weight": 25,
+      "supply_chain_weight": 10,
+      "sender_analysis_weight": 10
+    },
+    "threat_thresholds": {
+      "CRITICAL": 80,
+      "HIGH": 60,
+      "MEDIUM": 40,
+      "LOW": 20,
+      "MINIMAL": 0
+    },
+    "sender_analysis": {
+      "noreply_penalty": 10,
+      "external_sender_bonus": 5,
+      "known_sender_bonus": -5
+    }
+  },
+  "confidence_scoring": {
+    "enabled": true,
+    "display_reasons": true,
+    "thresholds": {
+      "very_high": { "factors": 5, "score": 10 },
+      "high": { "factors": 3, "score": 5 },
+      "medium": { "factors": 2, "score": 3 }
+    }
+  },
+  "suggested_replies": {
+    "enabled": true,
+    "include_for_categories": ["urgent", "high", "medium"],
+    "max_length": 200,
+    "templates": {
+      "deadline": "Thank you for flagging the deadline. I'll prioritize this and respond within the next 2 hours.",
+      "fyi": "Thanks for the update. I've noted this information.",
+      "general": "Thank you for your message. I'll review and respond as soon as possible.",
+      "approval": "I'll review this request and provide my response within 24 hours.",
+      "meeting": "Happy to meet — let me know your availability and I'll propose a few times.",
+      "delivery_issue": "Thanks for the update. Can you confirm the delivery address or provide a redelivery option?",
+      "supply_chain": "I'll investigate this supply chain issue immediately and coordinate with relevant teams.",
+      "security_alert": "Security alert acknowledged. Implementing immediate containment protocols."
+    }
+  },
+  "vip_learning": {
+    "enabled": true,
+    "min_messages_for_vip": 5,
+    "frequency_threshold": 0.02,
+    "learning_interval_hours": 168,
+    "inactivity_threshold_days": 90,
+    "max_learned_vips": 20,
+    "exclude_domains": ["noreply.apple.com", "notifications.apple.com", "github.com", "stripe.com"],
+    "boost_factors": {
+      "you_replied": 3,
+      "you_initiated": 2,
+      "high_importance": 2,
+      "cc_included": -1
+    },
+    "last_learn_timestamp": null,
+    "sender_database": {}
+  },
+  "output_settings": {
+    "export_csv": true,
+    "create_note": true,
+    "note_format": "plaintext",
+    "csv_delimiter": ",",
+    "include_headers": true,
+    "categories": {
+      "urgent": "🔴 URGENT",
+      "high": "🟠 HIGH",
+      "medium": "🟡 MEDIUM",
+      "normal": "⚪ NORMAL",
+      "info_only": "ℹ️ INFO ONLY"
+    },
+    "max_preview_length": 200,
+    "include_actions": true,
+    "group_by_sender": false,
+    "include_daily_stats": true,
+    "stats_position": "footer",
+    "threat_level_display": true,
+    "confidence_display": true
+  },
+  "runtime_options": {
+    "dry_run": false,
+    "post_run_notify": true,
+    "dashboard_mode": "html",
+    "emergency_protocols": true,
+    "tactical_logging": true,
+    "web_export": true
+  },
+  "modules": {
+    "enabled": {
+      "mail_access": true,
+      "email_processor": true,
+      "gpt_summarizer": true,
+      "digest_analyzer": true,
+      "cloud_bridge": false,
+      "notifier": true,
+      "threat_ai": true,
+      "utils": true,
+      "output": true,
+      "web_bridge": true
+    },
+    "configuration": {
+      "mail_access": {
+        "max_accounts": 10,
+        "timeout_seconds": 30,
+        "retry_attempts": 3,
+        "failure_threshold": 5
+      },
+      "email_processor": {
+        "content_sanitization": true,
+        "html_stripping": true,
+        "max_content_length": 10000,
+        "encoding_validation": true
+      },
+      "gpt_summarizer": {
+        "max_summary_length": 200,
+        "intelligence_extraction": true,
+        "key_points_limit": 5,
+        "threat_identification": true
+      },
+      "digest_analyzer": {
+        "analysis_depth": "comprehensive",
+        "recommendation_engine": true,
+        "trend_analysis": true,
+        "threat_correlation": true
+      },
+      "cloud_bridge": {
+        "provider": "none",
+        "sync_enabled": false,
+        "backup_retention_days": 30,
+        "encryption_required": true
+      },
+      "notifier": {
+        "slack_integration": false,
+        "email_alerts": true,
+        "desktop_notifications": true,
+        "alert_thresholds": {
+          "CRITICAL": true,
+          "HIGH": true,
+          "MEDIUM": false,
+          "LOW": false
+        }
+      },
+      "threat_ai": {
+        "ml_enhancement": false,
+        "behavioral_analysis": true,
+        "pattern_recognition": true,
+        "adaptive_learning": false
+      },
+      "utils": {
+        "python_delegation": true,
+        "complex_processing": true,
+        "error_recovery": true,
+        "performance_optimization": true
+      },
+      "output": {
+        "atomic_operations": true,
+        "backup_generation": true,
+        "file_rotation": true,
+        "compression": false
+      },
+      "web_bridge": {
+        "json_export": true,
+        "metadata_inclusion": true,
+        "security_sanitization": true,
+        "structured_output": true
+      }
+    }
+  },
+  "notification_system": {
+    "enabled": true,
+    "channels": {
+      "desktop": {
+        "enabled": true,
+        "threat_levels": ["CRITICAL", "HIGH"],
+        "display_duration": 10
+      },
+      "slack": {
+        "enabled": false,
+        "webhook_url": "",
+        "channel": "#commandpost-alerts",
+        "threat_levels": ["CRITICAL", "HIGH", "MEDIUM"]
+      },
+      "email": {
+        "enabled": true,
+        "recipient": "",
+        "threat_levels": ["CRITICAL"],
+        "subject_prefix": "[COMMANDPOST ALERT]"
+      }
+    },
+    "alert_templates": {
+      "CRITICAL": "🚨 CRITICAL THREAT DETECTED: {threat_description}",
+      "HIGH": "⚠️ HIGH PRIORITY ALERT: {threat_description}",
+      "MEDIUM": "📋 MEDIUM PRIORITY: {threat_description}",
+      "SYSTEM_FAILURE": "💥 SYSTEM FAILURE: {error_description}"
+    }
+  },
+  "emergency_protocols": {
+    "enabled": true,
+    "auto_backup": true,
+    "failure_escalation": true,
+    "recovery_procedures": {
+      "mail_access_failure": "continue_with_cached_data",
+      "analysis_failure": "emergency_notification",
+      "output_failure": "temp_storage_fallback",
+      "total_system_failure": "emergency_mode"
+    },
+    "notification_triggers": {
+      "consecutive_failures": 3,
+      "critical_module_failure": true,
+      "data_corruption": true,
+      "security_breach": true
+    }
+  },
+  "tactical_logging": {
+    "enabled": true,
+    "log_levels": {
+      "debug": false,
+      "info": true,
+      "warn": true,
+      "error": true
+    },
+    "file_settings": {
+      "max_file_size_mb": 10,
+      "max_files": 5,
+      "rotation_enabled": true,
+      "compression": true
+    },
+    "emergency_logging": {
+      "enabled": true,
+      "fallback_location": "/tmp/commandpost_emergency.log",
+      "max_emergency_size_mb": 50
+    }
+  },
+  "web_bridge_integration": {
+    "enabled": true,
+    "script_path": "~/CommandPost/web_bridge.scpt",
+    "output_format": "JSON",
+    "include_metadata": true,
+    "threat_tag_export": true,
+    "security_sanitization": true,
+    "export_triggers": {
+      "threat_level_threshold": "MEDIUM",
+      "message_count_threshold": 5,
+      "time_based": false
+    }
+  },
+  "security_settings": {
+    "content_validation": true,
+    "injection_prevention": true,
+    "secure_file_operations": true,
+    "error_information_limiting": true,
+    "audit_trail": true
+  },
+  "performance_optimization": {
+    "parallel_processing": false,
+    "memory_management": true,
+    "cache_intelligence": true,
+    "batch_operations": true,
+    "timeout_management": true
+  },
+  "paths": {
+    "script_location": "~/Library/Mobile Documents/com~apple~CloudDocs/CommandPost/Scripts/",
+    "config_location": "~/Library/Mobile Documents/com~apple~CloudDocs/CommandPost/Config/",
+    "log_location": "~/Documents/CommandPost/logs/",
+    "backup_location": "~/Documents/CommandPost/backups/",
+    "cache_location": "~/Library/Caches/CommandPost/",
+    "output_location": "~/CommandPost/outputs/",
+    "emergency_location": "/tmp/CommandPost/"
+  },
+  "system_metadata": {
+    "last_updated": "2025-05-21",
+    "config_version": "6.0.0-tactical",
+    "deployment_classification": "OPERATIONAL",
+    "module_count": 10,
+    "capabilities": [
+      "email_intelligence_extraction",
+      "threat_assessment_matrix",
+      "tactical_logging_system",
+      "emergency_protocols",
+      "web_bridge_integration",
+      "atomic_file_operations",
+      "graceful_degradation",
+      "security_sanitization"
+    ]
+  }
+}

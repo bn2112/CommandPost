@@ -1,0 +1,46 @@
+-- ✅ commandpost_config.schema.json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CommandPost Configuration Schema",
+  "type": "object",
+  "required": ["priority_scoring", "paths", "output_settings", "modules"],
+  "properties": {
+    "version": { "type": "string" },
+    "paths": {
+      "type": "object",
+      "required": ["script_location", "config_location", "log_location"],
+      "properties": {
+        "script_location": { "type": "string" },
+        "config_location": { "type": "string" },
+        "log_location": { "type": "string" },
+        "backup_location": { "type": "string" },
+        "cache_location": { "type": "string" }
+      }
+    },
+    "priority_scoring": { "type": "object" },
+    "output_settings": { "type": "object" },
+    "modules": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "object",
+          "properties": {
+            "mail_access": { "type": "boolean" },
+            "email_processor": { "type": "boolean" },
+            "output": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "runtime_options": {
+      "type": "object",
+      "properties": {
+        "post_run_notify": { "type": "boolean" },
+        "dashboard_mode": { "type": "string", "enum": ["html", "none"] }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,24 @@
+-- ✅ digest_latest.json (example structure)
+{
+  "date": "2025-05-21",
+  "total_messages": 42,
+  "by_priority": {
+    "urgent": 5,
+    "respond_today": 11,
+    "info_only": 26
+  },
+  "entries": [
+    {
+      "subject": "Container delayed at customs",
+      "sender": "logistics@dhl.com",
+      "summary": "Please confirm delivery workaround",
+      "category": "urgent"
+    },
+    {
+      "subject": "Monthly BMS Report",
+      "sender": "noreply@system.apple.com",
+      "summary": "Automated report: PITS metrics attached",
+      "category": "info_only"
+    }
+  ]
+}

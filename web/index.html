@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CommandPost Digest Dashboard</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .entry { border-bottom: 1px solid #ddd; padding: 1rem 0; }
+    .category { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>📬 CommandPost Digest</h1>
+  <div id="summary"></div>
+  <div id="entries"></div>
+
+  <script>
+    fetch('digest_latest.json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('summary').innerText = `${data.total_messages} messages processed on ${data.date}`;
+        data.entries.forEach(e => {
+          const div = document.createElement('div');
+          div.className = 'entry';
+          div.innerHTML = `<div class='category'>[${e.category.toUpperCase()}]</div><div><strong>${e.subject}</strong> – ${e.sender}</div><div>${e.summary}</div>`;
+          document.getElementById('entries').appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
